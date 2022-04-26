@@ -1,0 +1,16 @@
+-- Lưu ý: Sử dụng ngày thực tế
+
+exec [sp_KhopLenhLienTuc] 'ACB', '2022-04-28', 'M', 2500, 9000
+exec [sp_KhopLenhLienTuc] 'ACB', '2022-04-28', 'M', 4500, 25000
+exec [sp_KhopLenhLienTuc] 'ACB', '2022-04-28', 'M', 200, 15000
+
+exec [sp_KhopLenhLienTuc] 'ACB', '2022-04-28', 'B', 2500, 8000
+
+exec [sp_KhopLenhLienTuc] 'GAS', '2022-04-28', 'M', 2500, 16000
+exec [sp_KhopLenhLienTuc] 'GAS', '2022-04-28', 'M', 200, 9000
+
+exec [sp_KhopLenhLienTuc] 'GAS', '2022-04-28', 'B', 1500, 11000
+
+exec [sp_KhopLenhLienTuc] 'ISS', '2022-04-28', 'B', 500, 19000
+exec [sp_KhopLenhLienTuc] 'ISS', '2022-04-28', 'B', 1000, 9000
+exec [sp_KhopLenhLienTuc] 'ISS', '2022-04-28', 'B', 200, 11000

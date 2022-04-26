@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="h3 text-center text-white text-uppercase fw-bolder">
+    Bảng giá trực tuyến
+</div>
+
+
+@Html.Hidden("Get", Url.Action("Get", "Page"))
+
+<table class="table table-dark table-bordered">
+    <thead>
+        <tr class="text-white">
+            <th scope="col">Mã CK</th>
+            <th scope="col">Giá mua 3</th>
+            <th scope="col">KL 3</th>
+            <th scope="col">Giá mua 2</th>
+            <th scope="col">KL 2</th>
+            <th scope="col">Giá mua 1</th>
+            <th scope="col">KL 1</th>
+            <th scope="col">Giá khớp</th>
+            <th scope="col">KL</th>
+            <th scope="col">Giá bán 1</th>
+            <th scope="col">KL 1</th>
+            <th scope="col">Giá bán 2</th>
+            <th scope="col">KL 2</th>
+            <th scope="col">Giá bán 3</th>
+            <th scope="col">KL 3</th>
+            <th scope="col">Tổng số</th>
+        </tr>
+    </thead>
+    <tbody id="tblInfo" class="text-lime">
+    </tbody>
+</table>
