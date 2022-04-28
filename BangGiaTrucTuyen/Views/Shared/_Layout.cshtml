@@ -44,13 +44,13 @@
     <script src="~/signalr/hubs" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
-            // Proxy created on the fly
+            
             var pg = $.connection.pageHub;
-            // Declare a function on the job hub so the server can invoke it
+            
             pg.client.displayPage = function () {
                 getData();
             };
-            // Start the connection
+            
             $.connection.hub.start();
             getData();
         });

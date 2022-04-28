@@ -4,7 +4,7 @@ AFTER INSERT
 AS
 DECLARE @MACP NVARCHAR(7)
 BEGIN
-		SET @MACP = (SELECT a.MaCoPhieu FROM LENHDAT a, inserted b WHERE a.ID = b.IDLENHDAT)
+		SET @MACP = (SELECT ld.MaCoPhieu FROM LENHDAT ld, inserted i WHERE ld.ID = i.IDLENHDAT)
 
 		UPDATE dbo.BangGiaTrucTuyen 
 		SET GiaKhop = (SELECT GIAKHOP FROM inserted),

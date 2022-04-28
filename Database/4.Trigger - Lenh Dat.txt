@@ -7,96 +7,80 @@ BEGIN
 			   FROM dbo.BangGiaTrucTuyen 
 			   WHERE MaCoPhieu = (SELECT MaCoPhieu FROM inserted))
 	BEGIN
-		DECLARE @CursorVariable CURSOR, 
+		DECLARE @LenhDat_Cursor CURSOR, 
 				@MaCoPhieu CHAR(7), 
 
 				@GiaMua1 FLOAT,		
 				@SoLuongMua1 INT,
-	
 				@GiaMua2 FLOAT, 		
 				@SoLuongMua2 INT,	
-
 				@GiaMua3 FLOAT,		
 				@SoLuongMua3 INT,	
-
 				
 				@GiaBan1 FLOAT, 	
 				@SoLuongBan1 INT,	
-
 				@GiaBan2 FLOAT, 	
 				@SoLuongBan2 INT,
-
 				@GiaBan3 FLOAT,		
 				@SoLuongBan3 INT	
-		SET @CursorVariable = CURSOR FOR SELECT DISTINCT MaCoPhieu FROM LENHDAT
+		SET @LenhDat_Cursor = CURSOR FOR SELECT DISTINCT MaCoPhieu FROM LENHDAT
 
-		OPEN @CursorVariable
+		OPEN @LenhDat_Cursor
 
-		FETCH NEXT FROM @CursorVariable INTO @MaCoPhieu
+		FETCH NEXT FROM @LenhDat_Cursor INTO @MaCoPhieu
 		WHILE(@@FETCH_STATUS <>-1)
 		BEGIN
 			
 			SET @GiaMua1 = (SELECT MAX(GIADAT) 
 				FROM LENHDAT WHERE MaCoPhieu = @MaCoPhieu AND LoaiGiaoDich='M' AND SOLUONG > 0 AND CAST(NGAYDAT AS DATE) = CAST(GETDATE() AS DATE))
-				
 			SET @SoLuongMua1 = (SELECT SUM(SOLUONG) 
 				FROM LENHDAT WHERE MaCoPhieu = @MaCoPhieu AND LoaiGiaoDich='M' AND SOLUONG > 0 AND CAST(NGAYDAT AS DATE) = CAST(GETDATE() AS DATE) AND GIADAT = @GiaMua1)
 
 			SET @GiaMua2 = (SELECT MAX(GIADAT) 
 				FROM LENHDAT WHERE MaCoPhieu = @MaCoPhieu AND LoaiGiaoDich='M' AND SOLUONG > 0 AND CAST(NGAYDAT AS DATE) = CAST(GETDATE() AS DATE) AND GIADAT < @GiaMua1)
-				
 			SET @SoLuongMua2 = (SELECT SUM(SOLUONG) 
 				FROM LENHDAT WHERE MaCoPhieu = @MaCoPhieu AND LoaiGiaoDich='M' AND SOLUONG > 0 AND CAST(NGAYDAT AS DATE) = CAST(GETDATE() AS DATE) AND GIADAT = @GiaMua2)
 
 			SET @GiaMua3 = (SELECT MAX(GIADAT) 
 				FROM LENHDAT WHERE MaCoPhieu = @MaCoPhieu AND LoaiGiaoDich='M' AND SOLUONG > 0 AND CAST(NGAYDAT AS DATE) = CAST(GETDATE() AS DATE) AND GIADAT < @GiaMua2)
-				
 			SET @SoLuongMua3 = (SELECT SUM(SOLUONG) 
 				FROM LENHDAT WHERE MaCoPhieu = @MaCoPhieu AND LoaiGiaoDich='M' AND SOLUONG > 0 AND CAST(NGAYDAT AS DATE) = CAST(GETDATE() AS DATE) AND GIADAT = @GiaMua3)
 
 			SET @GiaBan1 = (SELECT MIN(GIADAT) 
 				FROM LENHDAT WHERE MaCoPhieu = @MaCoPhieu AND LoaiGiaoDich='B' AND SOLUONG > 0 AND CAST(NGAYDAT AS DATE) = CAST(GETDATE() AS DATE))
-				
 			SET @SoLuongBan1 = (SELECT SUM(SOLUONG) 
 				FROM LENHDAT WHERE MaCoPhieu = @MaCoPhieu AND LoaiGiaoDich='B' AND SOLUONG > 0 AND CAST(NGAYDAT AS DATE) = CAST(GETDATE() AS DATE) AND GIADAT = @GiaBan1)
 
 			SET @GiaBan2 = (SELECT MIN(GIADAT) 
 				FROM LENHDAT WHERE MaCoPhieu = @MaCoPhieu AND LoaiGiaoDich='B' AND SOLUONG > 0 AND CAST(NGAYDAT AS DATE) = CAST(GETDATE() AS DATE) AND GIADAT > @GiaBan1)
-				
 			SET @SoLuongBan2 = (SELECT SUM(SOLUONG) 
 				FROM LENHDAT WHERE MaCoPhieu = @MaCoPhieu AND LoaiGiaoDich='B' AND SOLUONG > 0 AND CAST(NGAYDAT AS DATE) = CAST(GETDATE() AS DATE) AND GIADAT = @GiaBan2)
 
 			SET @GiaBan3 = (SELECT MIN(GIADAT) 
 				FROM LENHDAT WHERE MaCoPhieu = @MaCoPhieu AND LoaiGiaoDich='B' AND SOLUONG > 0 AND CAST(NGAYDAT AS DATE) = CAST(GETDATE() AS DATE) AND GIADAT > @GiaBan2)
-				
 			SET @SoLuongBan3 = (SELECT SUM(SOLUONG) 
 				FROM LENHDAT WHERE MaCoPhieu = @MaCoPhieu AND LoaiGiaoDich='B' AND SOLUONG > 0 AND CAST(NGAYDAT AS DATE) = CAST(GETDATE() AS DATE) AND GIADAT = @GiaBan3)
 
-			UPDATE BangGiaTrucTuyen SET 
-										GiaMua1 = @GiaMua1,
-										SoLuongMua1 = @SoLuongMua1,
+			UPDATE BangGiaTrucTuyen 
+			SET GiaMua1 = @GiaMua1,
+				SoLuongMua1 = @SoLuongMua1,
+				GiaMua2 = @GiaMua2, 
+				SoLuongMua2 = @SoLuongMua2,
+				GiaMua3 = @GiaMua3,
+				SoLuongMua3 = @SoLuongMua3,
+	
+				GiaBan1 = @GiaBan1, 
+				SoLuongBan1 = @SoLuongBan1,
+				GiaBan2 = @GiaBan2, 
+				SoLuongBan2 = @SoLuongBan2,
+				GiaBan3 = @GiaBan3,
+				SoLuongBan3 = @SoLuongBan3
+			WHERE MaCoPhieu = @MaCoPhieu 
 
-										GiaMua2 = @GiaMua2, 
-										SoLuongMua2 = @SoLuongMua2,
-
-										GiaMua3 = @GiaMua3,
-										SoLuongMua3 = @SoLuongMua3,
-
-										
-										
-										GiaBan1 = @GiaBan1, 
-										SoLuongBan1 = @SoLuongBan1,
-
-										GiaBan2 = @GiaBan2, 
-										SoLuongBan2 = @SoLuongBan2,
-
-										GiaBan3 = @GiaBan3,
-										SoLuongBan3 = @SoLuongBan3
-									WHERE MaCoPhieu = @MaCoPhieu 
-			FETCH NEXT FROM @CursorVariable INTO @MaCoPhieu 
+			FETCH NEXT FROM @LenhDat_Cursor INTO @MaCoPhieu 
 		END
-		CLOSE @CursorVariable 
-		DEALLOCATE @CursorVariable
+		CLOSE @LenhDat_Cursor 
+		DEALLOCATE @LenhDat_Cursor
 	END
 	ELSE    -- Khi mã cổ phiểu chưa tồn tại
 	BEGIN

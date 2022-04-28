@@ -35,8 +35,7 @@ namespace BangGiaTrucTuyen.Controllers
                                                             "       TongSo" +
                                                             " from dbo.BangGiaTrucTuyen", connection))
                 {
-                    // Make sure the command object does not already have
-                    // a notification object associated with it.
+                    
                     command.Notification = null;
 
                     SqlDependency dependency = new SqlDependency(command);
